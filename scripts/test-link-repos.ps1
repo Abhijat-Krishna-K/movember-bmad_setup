@@ -30,7 +30,7 @@ try {
     $contents = [IO.File]::ReadAllText($exclude)
     [IO.File]::WriteAllText($exclude, $contents.Replace('movember-bmad_setup', 'Movember-bmad_setup'))
     & (Join-Path $base 'scripts\link-repos.ps1') -Repos movember-test
-    Assert (-not ((Get-Content $exclude) -cmatch 'Movember-bmad_setup')) 'legacy markers were not migrated'
+    Assert (-not ((Get-Content $exclude) -match 'Movember-bmad_setup')) 'legacy markers were not migrated'
     Assert ((@(Get-Content $exclude | Where-Object { $_ -eq '/_bmad' })).Count -eq 1) 'repeat run duplicated excludes'
 
     New-Item -ItemType Directory -Path (Join-Path $base '.claude'), (Join-Path $repo '.claude') -Force | Out-Null
